@@ -1,0 +1,45 @@
+#include<math>
+#define INT_MAX 0x7fffffff
+class Solution {
+public:
+    int reverse(int x) 
+    {
+        bool flag=false;
+        int temp = x;
+        int count = 0;
+        long result = 0;
+        if(temp < 0)
+        {
+            temp = -temp;
+            x = -x;
+            flag = true;
+        }
+        while(temp > 0)
+        {
+            temp /= 10;
+            count++;
+        }
+        int j=0;
+        for(int i = count-1; i >= 0; i--)
+        {
+            long y=x / (long)pow(10,i);
+            long z=(long)pow(10,j);
+            result += y*z ;
+            x %= (int)pow(10,i);
+            j++;
+        }
+        if(result > INT_MAX)
+        {
+            return 0;
+        }
+        if(flag)
+        {
+            result = -result;
+        }
+        else
+        {
+            ;
+        }
+        return result;
+    }
+};
