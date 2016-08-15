@@ -43,7 +43,7 @@ public:
             vector<int>::iterator back=result;
             front--;
             back++;
-            while (*front==target && front>=nums.begin())
+            while (*front==target && front>=nums.begin())///有更好的方式吗？这是正常的写法吗？
             {
                 front--;
             }
