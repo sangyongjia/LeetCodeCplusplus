@@ -7,7 +7,7 @@ private:
         vector<int>::iterator result;
         if(start > end)
         {
-            vector<int>::iterator res;
+            vector<int>::iterator res;          ///定义一个空的迭代器返回！因为不能直接返回NULL！
             return res;
         }
         vector<int>::iterator mid=start+(end-start)/2;
@@ -37,7 +37,7 @@ public:
         }
         vector<int>::iterator result=binarySearch(nums.begin(),nums.end()-1,target);
         
-        if(result!=res.begin())
+        if(result!=res.begin())         ///仅仅是借用下空的vector的begin返回的迭代器的值！
         {    
             vector<int>::iterator front=result;
             vector<int>::iterator back=result;
