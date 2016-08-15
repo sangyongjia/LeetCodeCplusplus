@@ -1,0 +1,65 @@
+class Solution 
+{
+private:
+    vector<int>::iterator binarySearch(vector<int>::iterator start, vector<int>::iterator end, int target)
+    {
+        
+        vector<int>::iterator result;
+        if(start > end)
+        {
+            vector<int>::iterator res;
+            return res;
+        }
+        vector<int>::iterator mid=start+(end-start)/2;
+        if(*mid > target)
+        {
+            result=binarySearch(start,mid-1,target);
+        }
+        else if(*mid < target)
+        {
+            result=binarySearch(mid+1,end,target);
+        }
+        else
+        {
+            return mid;
+        }
+        return result;
+    }
+public:
+    vector<int> searchRange(vector<int>& nums, int target) 
+    {
+        vector<int> res;
+        if(nums.empty())
+        {
+            res.push_back(-1);
+            res.push_back(-1);
+            return res;
+        }
+        vector<int>::iterator result=binarySearch(nums.begin(),nums.end()-1,target);
+        
+        if(result!=res.begin())
+        {    
+            vector<int>::iterator front=result;
+            vector<int>::iterator back=result;
+            front--;
+            back++;
+            while (*front==target && front>=nums.begin())
+            {
+                front--;
+            }
+            while(*back==target && back!=nums.end())
+            {
+                back++;
+            }
+            res.push_back(front-nums.begin()+1);
+            res.push_back(back-nums.begin()-1);
+        }
+        else
+        {
+            res.push_back(-1);
+            res.push_back(-1);
+        }
+        return res;
+    }
+
+};
