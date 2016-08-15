@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int reverse(int x) 
+    {
+        std::stringstream ss;
+        std::string s,midstr;
+        int result = -1;
+        ss << x;
+        ss >> s;
+        std::string::iterator iter = s.begin();
+        if('-'==*iter)
+        {
+            for(std::string::reverse_iterator iter_end = s.rbegin(); iter_end != s.rend()-1; iter++)
+            {
+                midstr+=*iter_end;
+            }
+        }
+        else
+        {
+            for(std::string::reverse_iterator iter_end = s.rbegin(); iter_end != s.rend(); iter++)
+            {
+                midstr+=*iter_end;
+            }
+        }
+        std::stringstream stringtoint(midstr);
+        ss >> result;
+        return result;
+    }
+};
