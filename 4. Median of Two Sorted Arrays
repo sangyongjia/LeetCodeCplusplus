@@ -1,0 +1,46 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) 
+    {
+        std::vector<int> mergearray;
+        std::vector<int>::iterator iter1 = nums1.begin();
+        std::vector<int>::iterator iter2 = nums2.begin();
+        double result=0;
+        while(iter1 != nums1.end() && iter2 != nums2.end())
+        {
+            if(*iter1 <= *iter2)
+            {
+                mergearray.push_back(*iter1);
+                iter1++;
+            }
+            else
+            {
+                mergearray.push_back(*iter2);
+                iter2++;
+            }
+        }
+        while(iter1 != nums1.end())
+        {
+            mergearray.push_back(*iter1);
+            iter1++;
+        }
+        while(iter2 != nums2.end())
+        {
+            mergearray.push_back(*iter2);
+            iter2++;
+        }
+        if(mergearray.size()%2==0)
+        {
+            int i=(int)(mergearray.size()/2);
+            result+=mergearray[i];
+            result+=mergearray[i-1];
+            result/=2;
+        }
+        else
+        {
+            int i=(int)(mergearray.size()/2);
+            result=mergearray[i];
+        }
+        return result;
+    }
+};
