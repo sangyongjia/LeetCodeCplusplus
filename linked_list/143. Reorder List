@@ -1,0 +1,95 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findMiddleNode(ListNode* head)
+    {
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next!=NULL && fast->next->next!=NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    /*这个老土的办法是我自己的做的想的*/
+    ListNode* reverseList1(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            return head;
+        }
+        ListNode* pre=NULL;
+        while(head!=NULL)
+        {
+            ListNode* temp=head->next;
+            head->next=pre;
+            pre=head;
+            head=temp;
+        }
+        return pre;
+    }
+    /*这个办法是参见别人的，这种更好。*/
+    ListNode* reverseList(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            return head;
+        }
+        ListNode* dummy_head= new ListNode(-1);
+        while(head!=NULL)
+        {
+            ListNode* temp = head->next;
+            head->next = dummy_head->next;
+            dummy_head->next=head;
+            
+            head=temp;
+        }
+        ListNode* new_head = dummy_head->next;
+        delete dummy_head;
+        return new_head;
+    }
+    ListNode* mergeList(ListNode* a, ListNode* b)
+    {
+        ListNode* dummy_head = new ListNode(-1);
+        ListNode* cur=dummy_head;
+        while(a!=NULL && b!= NULL)
+        {
+            cur->next=a;
+            ListNode* temp_a = a->next;
+            a->next=b;
+            a= temp_a;
+            cur=b;
+            b = b->next;
+        }
+        if(a!=NULL)
+        {
+            cur->next=a;
+        }
+        ListNode* new_list=dummy_head->next;
+        delete dummy_head;
+        return new_list;
+    }
+    void reorderList(ListNode* head) 
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            ;
+        }
+        else
+        {
+            ListNode* list = findMiddleNode(head);
+            ListNode* list_b = list->next;
+            list->next=NULL;
+            ListNode* list_b_r = reverseList(list_b);
+            head=mergeList(head,list_b_r);
+        }
+    }
+};
