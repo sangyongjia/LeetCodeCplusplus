@@ -1,0 +1,68 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findMiddleNode(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL || head->next->next==NULL)
+        {
+            return head;
+        }
+        ListNode* slow=head;
+        ListNode* fast=head;
+        ListNode* pre=NULL;
+        while(fast->next!=NULL && fast->next->next!=NULL)
+        {
+            pre=slow;
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        if(fast->next==NULL)
+        {
+            return pre;
+        }
+        else
+        {
+            return slow;
+        }
+    }
+    TreeNode* sortedListToBST(ListNode* head) 
+    {
+        if(head==NULL)
+        {
+            return NULL;
+        }
+        else if(head->next==NULL)
+        {
+            TreeNode* tree = new TreeNode(head->val);
+            return tree;
+        }
+        else
+        {
+            ListNode* list=findMiddleNode(head);
+            ListNode* middle=list->next;
+            list->next=NULL;
+            ListNode* new_list = middle->next;
+            TreeNode* root = new TreeNode(middle->val);
+            delete middle;
+            root->left=sortedListToBST(head);
+            root->right=sortedListToBST(new_list);
+            return root;
+        }
+    }
+};
