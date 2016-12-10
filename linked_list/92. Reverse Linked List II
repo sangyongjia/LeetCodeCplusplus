@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) 
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            return head;
+        }
+        ListNode* dummy_head=new ListNode(-1);
+        dummy_head->next = head;
+        
+        ListNode* cur=dummy_head;
+        ListNode** last=NULL;
+        int i=0;
+        while(head!=NULL)
+        {
+           if(i<m)
+           {
+             if(m-i==1)
+             {
+                 i++;
+                 cur->next=NULL;
+                 last=&(head->next);
+             }
+             else
+             {
+                 i++;
+                 cur=cur->next;
+                 head=head->next;
+             }
+ 
+           }
+           else if (i>=m && i<=n)
+           {
+               i++;
+               ListNode* temp=head->next;
+               head->next = cur->next;
+               cur->next = head;
+               
+               head=temp;
+               
+           }
+           else
+           {
+               *last=head;
+               break;
+           }
+        }
+        ListNode* new_head = dummy_head->next;
+        delete dummy_head;
+        return new_head;
+    }
+};
