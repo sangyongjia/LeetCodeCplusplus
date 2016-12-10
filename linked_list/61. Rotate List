@@ -24,7 +24,7 @@ public:
             head=head->next;
         }
         end->next=head1;
-        k%=count;
+        k%=count;//未想到的点
         int steps=count-k;
         while(steps!=0)
         {
