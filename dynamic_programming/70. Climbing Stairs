@@ -1,0 +1,95 @@
+//////////////////////竟然栽倒数组下标上了，f**u，代码写的太少了，要多多练习呀！！
+//暴力搜索
+ int method(int n, vector<int>& status)
+    {
+        if(n==0 || n==1){
+            return 1;
+        }
+        
+       return method(n-1,status)+ method(n-2,status);
+    }
+//自顶向下的dynamic programming;vector
+class Solution {
+public:
+    int method(int n, vector<int>& status)
+    {
+        //std::cout<<"ee"<<std::endl;
+        //std::cout<<n<<std::endl;
+        if(n==0 || n==1){
+            return 1;
+        }
+        //std::cout<<status[n]<<std::endl;
+        if (status[n] > 0){
+            return status[n];
+        }
+        
+        status[n-1] = method(n-1,status);
+        status[n-2] = method(n-2,status);
+        //std::cout<<"ee"<<status[n-1]<<std::endl;
+       
+        //std::cout<<status[n-2];
+        int res = status[n-1]+status[n-2];
+        return res;
+    }
+    int climbStairs(int n) 
+    {
+        vector<int> status(n+1,0);
+        //for(int i=0; i< n; ++i){
+        ///    std::cout<<status[i]<<std::endl;
+        //}
+        int res=0;
+        res = method(n,status);
+        ///for(int i=0; i< n; ++i){
+        ///    std::cout<<status[i]<<std::endl;
+        ///}       
+        return res;
+    }
+};
+//自顶向下的dynamic programming;数组
+class Solution {
+public:
+    int method(int n, int* status)
+    {
+        if(n==0 || n==1){
+            return 1;
+        }
+        if (status[n] > 0){
+            return status[n];
+        }
+        status[n-2] = method(n-2,status);
+        status[n-1] = method(n-1,status);
+        //std::cout<<"ee"<<status[n-1]<<std::endl;
+       
+        //std::cout<<status[n-2];
+        return (status[n-1]+status[n-2]);
+    }
+    int climbStairs(int n) 
+    {
+        int status[n+1]={0};
+        for(int i=0; i< n; ++i){
+            std::cout<<status[i]<<std::endl;
+        }
+        int res=0;
+        res = method(n,&status[0]);
+        for(int i=0; i< n; ++i){
+            std::cout<<status[i]<<std::endl;
+        }       
+        return res;
+    }
+};
+
+///自底想上的方法
+//static int status[n]={0};
+class Solution {
+public:
+    int climbStairs(int n) 
+    {
+        int status[n+1]={0};
+        status[0]=1;
+        status[1]=1;
+        for(int i=2; i<=n; ++i){
+            status[i]=status[i-1]+status[i-2];
+        }
+        return status[n];
+    }
+};
