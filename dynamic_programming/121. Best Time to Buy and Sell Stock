@@ -1,0 +1,24 @@
+///不理解这个题目怎么DP了。
+///这个题目用暴力迭代的方法怎么写？？？
+class Solution {
+public:
+    int find(vector<int>& prices,int n)
+    {
+        int maximum=0;
+        int minimum=10000000;
+        for(int i=0;i<=n;i++){
+            minimum = min(minimum,prices[i]);
+            maximum=max(maximum,prices[i]-minimum);
+            //find(prices,i+1);
+            //std::cout<<i<<"i:"<<maximum<<std::endl;
+        }
+        return maximum;
+    }
+    int maxProfit(vector<int>& prices){
+        return find(prices,prices.size()-1);
+        
+    }
+    
+    
+    
+};
