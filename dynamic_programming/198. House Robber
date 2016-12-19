@@ -1,0 +1,45 @@
+ ///暴力递归！ 
+class Solution {
+public:
+    int money(vector<int>& nums ,int i){
+        if(i>=nums.size())
+        {
+            return 0;
+        }
+        return max(money(nums,i+1),money(nums,i+2)+nums[i]);
+    }
+    int rob(vector<int>& nums) {
+       int res = money(nums,0);
+       return res;
+    }
+};
+
+ ///DP--自底向上！----反方向。 
+class Solution {
+public:
+    int money(vector<int>& nums ,int i,vector<int>& mid){
+        if(i==0)
+        {
+            return nums[0];
+        }
+        if(i==1){
+            return max(nums[0],nums[1]);
+        }
+        if(mid[i]>=0){
+            return mid[i];
+            
+        }
+        mid[i-1]=money(nums,i-1,mid);
+        mid[i-2]=money(nums,i-2,mid);
+        return max(mid[i-1],mid[i-2]+nums[i]);
+    }
+    int rob(vector<int>& nums) {
+        if(nums.empty())
+        {
+            return 0;
+        }
+        vector<int> mid(nums.size(),-1);
+        int res = money(nums,nums.size()-1,mid);
+        return res;
+    }
+};
