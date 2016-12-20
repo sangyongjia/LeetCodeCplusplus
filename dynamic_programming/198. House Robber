@@ -14,7 +14,7 @@ public:
     }
 };
 
- ///DP--自底向上！----反方向。 
+ ///DP--从n-->0！----反方向。 
 class Solution {
 public:
     int money(vector<int>& nums ,int i,vector<int>& mid){
@@ -43,3 +43,32 @@ public:
         return res;
     }
 };
+///DP--自0-->n！----正方向。 
+class Solution {
+public:
+    int money(vector<int>& nums ,int i,vector<int>& mid){
+        if(i==nums.size()-1){
+            return nums[i];
+        }
+        if(i==nums.size()-2){
+            return max(nums[i],nums[i+1]);
+        }
+        if(mid[i]>=0){
+            return mid[i];
+            
+        }
+        mid[i+1]=money(nums,i+1,mid);
+        mid[i+2]=money(nums,i+2,mid);
+        return max(mid[i+1],mid[i+2]+nums[i]);
+    }
+    int rob(vector<int>& nums) {
+        if(nums.empty())
+        {
+            return 0;
+        }
+        vector<int> mid(nums.size(),-1);
+        int res = money(nums,0,mid);
+        return res;
+    }
+};
+
