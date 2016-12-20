@@ -1,0 +1,26 @@
+///暴力递归方式
+#include<algorithm>
+class Solution {
+public:
+    int findRes(vector<string>& strs,int m,int n,int i){
+        if(i>=strs.size())
+        {
+            return 0;
+        }
+        if(m<=0 && n<=0){
+            return 0;
+        }
+        int mm=count(strs[i].begin(),strs[i].end(),'0');
+        int nn=count(strs[i].begin(),strs[i].end(),'1');
+        if(m-mm<0 || n-nn<0)
+        {
+            return findRes(strs,m,n,i+1);
+        }
+        return max(findRes(strs,m-mm,n-nn,i+1)+1,findRes(strs,m,n,i+1));
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        
+        return findRes(strs,m,n,0);
+        
+    }
+};
