@@ -1,3 +1,4 @@
+///我觉得和动态规划没有什么关系呀！！！
 class NumArray {
 public:
     NumArray(vector<int> &nums) {
