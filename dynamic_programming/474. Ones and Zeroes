@@ -24,3 +24,39 @@ public:
         
     }
 };
+
+///DP,使用三维数组来存储中间结果
+#include<algorithm>
+class Solution {
+public:
+    int findRes(vector<string>& strs,int m,int n,int i,vector<vector<vector<int>>>& status){
+        //std::cout<<"i:"<<i<<std::endl;
+        if(i>=strs.size())
+        {
+            return 0;
+        }
+        if(m<=0 && n<=0){
+            return 0;
+        }
+        if(status[i][m][n]>-1){
+            return status[i][m][n];
+        }
+        int mm=count(strs[i].begin(),strs[i].end(),'0');
+        int nn=count(strs[i].begin(),strs[i].end(),'1');
+        //std::cout<<"0:"<<mm<<std::endl;
+        //std::cout<<"1:"<<nn<<std::endl;
+        if(m-mm<0 || n-nn<0)
+        {
+            status[i][m][n] = findRes(strs,m,n,i+1,status);
+            return status[i][m][n];
+        }
+        status[i][m-mm][n-nn]=findRes(strs,m-mm,n-nn,i+1,status)+1;
+        status[i][m][n]=findRes(strs,m,n,i+1,status);
+        return max(status[i][m-mm][n-nn],status[i][m][n]);
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<vector<int>>> status(strs.size(),vector<vector<int>>(m+1,vector<int>(n+1,-1)));
+        return findRes(strs,m,n,0,status);
+        
+    }
+};
