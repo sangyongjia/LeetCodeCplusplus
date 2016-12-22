@@ -25,7 +25,13 @@ public:
     }
 };
 
-///DP,使用三维数组来存储中间结果
+///DP,使用三维数组来存储中间结果;
+///在寻找递归式的时候，得到的结果为max(findRes(strs,m-mm,n-nn,i+1,status)+1,findRes(strs,m,n,i+1,status))
+///所以我使用了一个三维的数组status[i][m][n]来存储中间结果;
+
+///但是换个角度，我们其实寻找在拥有m个0,n个1时，最多能拼几个字符串。哪能不能直接将第一维丢弃，直接用一个2维的数组存储呢？试了下不可以。
+///在每次向status[m][n]中填数据的时候应该做个max的比较！！！
+///
 #include<algorithm>
 class Solution {
 public:
@@ -57,6 +63,77 @@ public:
     int findMaxForm(vector<string>& strs, int m, int n) {
         vector<vector<vector<int>>> status(strs.size(),vector<vector<int>>(m+1,vector<int>(n+1,-1)));
         return findRes(strs,m,n,0,status);
+        
+    }
+};
+
+///DP将三维的数组降到2维的结果不对！！！
+///说明存储status[j][k]中存储的并不是最优解！！！
+///在每次向status[m][n]中填数据的时候应该做个max的比较？-----也不对！
+///还是没考虑清楚，status中数据的关系是什么！
+/////////////////////////////////////////////////
+考虑如下情况：如果字符数组中包含101,10,1这三个字符串；按照递归处理时是变量了所有的情况等到的结果；而如果是DP的话会将中间结果记录下来eg:status[i][j]
+这时候问题就来了，如果一种情况是包含10,1而不包含101；假设status[i][j]=x+1;另一种情况包含101而不包含10,1；此时status[i][j]=x；
+（以上两种情况的i,j是相同的）；因此不论哪种情况先计算，当判断条件判断d[i][j]存在就直接返回结果的话都是错误的！！！，
+如果再加个max函数，就仍需要计算当前的findRes(strs,i,j),导致存储数据毫无意义！！！浪费了空间还丝毫没降低复杂度！！！
+所以这种方式的递归DP没办法写！！！
+至少现在我还没找到好的办法！！！
+///那如果数组再添加一层呢？？？---同样存在被覆盖的可能
+
+
+///那怎么办呢？以正推的方式来处理，解决值被覆盖的问题！！
+#include<algorithm>
+class Solution {
+public:
+    int findRes(vector<string>& strs,int m,int n,int i,vector<vector<int>>& status){
+        //std::cout<<"i:"<<i<<std::endl;
+        if(i>=strs.size())
+        {
+            return 0;
+        }
+        if(m<=0 && n<=0){
+            return 0;
+        }
+        if(status[m][n]>-1){
+            return status[m][n];
+        }
+        int mm=count(strs[i].begin(),strs[i].end(),'0');
+        int nn=count(strs[i].begin(),strs[i].end(),'1');
+        //std::cout<<"0:"<<mm<<std::endl;
+        //std::cout<<"1:"<<nn<<std::endl;
+        if(m-mm<0 || n-nn<0)
+        {
+            return findRes(strs,m,n,i+1,status);
+            //return status[m][n];
+        }
+        status[m-mm][n-nn]=findRes(strs,m-mm,n-nn,i+1,status)+1;
+        status[m][n]=findRes(strs,m,n,i+1,status);
+        return max(status[m-mm][n-nn],status[m][n]);
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> status(m+1,vector<int>(n+1,-1));
+        return findRes(strs,m,n,0,status);
+        
+    }
+};
+
+///正推的方式！！！
+#include<algorithm>
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> status(m+1,vector<int>(n+1,0));
+        for(int i=0; i<strs.size(); i++){
+            int zeros=count(strs[i].begin(),strs[i].end(),'0');
+            int ones=count(strs[i].begin(),strs[i].end(),'1');
+            for(int j=m;j>=zeros;j--){
+                for(int k=n;k>=ones;k--){
+                    status[j][k]=max(status[j][k],status[j-zeros][k-ones]+1);///这个位置，二维数组的处理实在是太妙了；
+                    ///画成一个矩阵，那几个数据试试，就会发现其奇妙，太妙了！！！以至于现在我都不真真切切的明白为何会这么妙！！
+                }
+            }
+        }
+        return status[m][n];
         
     }
 };
