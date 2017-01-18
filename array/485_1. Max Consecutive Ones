@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int cur=0;
+        int max=0;
+        std::vector<int>::size_type size = nums.size();
+        for(auto i=0; i<size; i++)
+        {
+            if(nums[i]==1)
+            {
+                cur++;
+            }
+            else
+            {
+                 max = max>cur?max:cur;
+                 cur=0;
+            }
+           
+        }
+         max = max>cur?max:cur;
+            return max;
+    }
+};
