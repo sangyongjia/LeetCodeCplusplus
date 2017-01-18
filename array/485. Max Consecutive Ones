@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int cur=0;
+        int max=0;
+        for(std::vector<int>::iterator iter=nums.begin();iter!=nums.end();iter++)
+        {
+            if(*iter==1)
+            {
+               cur++;
+            }
+            else
+            {
+                max = max>cur?max:cur;
+                cur=0;
+            }
+        }
+        max = max>cur?max:cur;
+        return max;
+    }
+};
