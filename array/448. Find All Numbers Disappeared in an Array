@@ -1,0 +1,35 @@
+class Solution {
+public:
+    void setFlag(std::vector<int>& nums,unsigned int i)
+    {
+        auto subscrip=nums[i];
+        subscrip -= 1;
+        while(nums[subscrip]!=-1)
+        {
+            auto value=nums[subscrip];
+            value -= 1;
+            nums[subscrip]=-1;
+            subscrip = value;
+        }
+    }
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        std::vector<int>::size_type size = nums.size();
+        std::vector<int> res;
+        for(auto i=0; i<size;i++)
+        {
+            if(nums[i]==-1)
+            {
+                continue;
+            }
+            setFlag(nums,i);
+        }
+        for(auto i=0; i<size; i++)
+        {
+            if(nums[i]!=-1)
+            {
+                res.push_back(i+1);   
+            }
+        }
+        return res;
+    }
+};
