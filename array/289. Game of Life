@@ -1,0 +1,66 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int h=board.size();
+        int w=h?board[0].size():0;
+        if(h==0 || w==0)
+        {
+            return;
+        }
+        for(auto i=0;i<h;i++)
+            for(auto j=0;j<w;j++)
+            {
+                updateState(board,h-1,w-1,i,j);
+            }
+        for(auto i=0;i<h;i++)
+            for(auto j=0;j<w;j++)
+            {
+                board[i][j]>>=1;
+            }
+    }
+private:
+    void updateState(vector<vector<int>>& board,int height,int width,int h,int w)
+    {
+        int count=0;
+        for(auto i=max(h-1,0);i<=min(h+1,height);i++)
+            for(auto j=max(w-1,0);j<=min(w+1,width);j++)
+            {
+                if(i==h && j==w)
+                    continue;
+                if(board[i][j]&0x1)
+                    count++;
+            }
+        ///std::cout<<count<<std::endl;
+        if(board[h][w]==0)
+        {
+            if(count==3)
+            {
+                board[h][w]=1;
+                board[h][w]<<=1;
+            }
+            else
+            {
+                ;
+            }
+        }
+        else
+        {
+            if(count<=1)
+            {
+                board[h][w]=0;
+                board[h][w]|=0x1;
+            }
+            else if(count==2 || count==3)
+            {
+                board[h][w]<<=1;
+                board[h][w]|=0x1;
+            }
+            else
+            {
+                board[h][w]=0;
+                board[h][w]|=0x1;
+            }
+        }
+          
+    }
+};
