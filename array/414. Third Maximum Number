@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        long lowest = std::numeric_limits<long>::lowest();
+        long first=lowest,second=lowest,third=lowest;
+        //std::cout<<lowest<<std::endl;
+        //vector<int> res(4,lowest);
+        auto size = nums.size();
+        for(auto i=0; i<size; i++)
+        {
+            if(nums[i]>first)
+            {
+                third=second;
+                second=first;
+                first=nums[i];
+            }
+            if(nums[i]>second && nums[i]<first)
+            {
+                third=second;
+                second=nums[i];
+            }
+            if(nums[i]>third && nums[i]<second)
+            {
+                third=nums[i];
+            }
+        }
+        if(third==lowest)
+        {
+            return static_cast<int> (first);
+        }
+        return static_cast<int> (third);
+    }
+};
