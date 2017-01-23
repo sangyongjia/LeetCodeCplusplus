@@ -1,0 +1,41 @@
+class Solution {
+private:
+    void result(vector<string>& res,int start,int end)
+    {
+        if(start==end)
+        {
+            string ele = std::to_string(start);
+            res.push_back(ele);
+        }
+        else
+        {
+            string ele = std::to_string(start)+"->"+std::to_string(end);
+            res.push_back(ele);
+        }
+    }
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> res;
+        int size=nums.size();
+        if(size==0)
+        {
+            return res;
+        }
+        int start=nums[0];
+        for(int i=0;i<size-1;i++)
+        {
+            if(nums[i+1]-nums[i]==1)
+            {
+                continue;
+            }
+            else
+            {
+                result(res,start,nums[i]);
+                start=nums[i+1];
+            }
+        }
+        result(res,start,nums[size-1]);
+        return res;
+        
+    }
+};
