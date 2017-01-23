@@ -1,0 +1,53 @@
+///超时的方法
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        int size=nums.size();
+        for(int i=0;i<size-1;i++)
+            for(int j=i+1;j<size;j++)
+            {
+                if(nums[i]==nums[j])
+                {
+                    if(j-i<=k)
+                    {
+                        return true;
+                    }
+                }
+                if(j-i>k)
+                {
+                    break;
+                }
+            }
+            return false;
+    }
+};
+///可行的方法；只是使用的map的数据结构，挺高了执行速度
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        std::map<int,int> a;
+        std::map<int,int>::iterator iter;
+        int size=nums.size();
+        for(int i=0;i<size;i++)
+        {
+            iter=a.find(nums[i]);
+            if(iter!=a.end())
+            {
+                if(i-iter->second<=k)
+                {
+                    return true;
+                }
+                else
+                {
+                    a[nums[i]]=i;
+                }
+            }
+            else
+            {
+                
+                a[nums[i]]=i;
+            }
+        }
+        return false;
+    }
+};
