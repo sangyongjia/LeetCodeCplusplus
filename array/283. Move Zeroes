@@ -1,0 +1,53 @@
+///这种方式超时错误！！！
+class Solution {
+private:
+    void adjust(vector<int>& nums,int start)
+    {
+        int size=nums.size();
+        for(int i=start;i<size-1;i++)
+        {
+            nums[i]=nums[i+1];
+        }
+        nums[size-1]=0;
+    }
+public:
+    void moveZeroes(vector<int>& nums) {
+        int size=nums.size();
+        for(int i=0;i<size;)
+        {
+            if(nums[i]==0)
+            {
+                adjust(nums,i);
+            }
+            else
+            {
+                i++;
+            }
+        }
+        
+    }
+};
+///可行方案，减少数据的移动次数！！！
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int size=nums.size();
+        int count=0;
+        for(int i=0;i<size;i++)
+        {
+            if(nums[i]==0)
+            {
+                count++;
+            }
+            else
+            {
+                nums[i-count]=nums[i];
+            }
+        }
+        for(int i=size-1;i>=size-count;i--)
+        {
+            nums[i]=0;
+        }
+        
+    }
+};
