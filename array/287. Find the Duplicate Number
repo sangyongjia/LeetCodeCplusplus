@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int size=nums.size();
+        int slow=0,fast=0;
+        int a=0;
+        int dup=0;
+        ///从值的角度
+        do
+        {
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+        }while(slow!=fast);
+        //std::cout<<slow<<std::endl;
+        ///从值的角度，目的是得到下标，然后取的重复的值
+        do
+        {
+            //std::cout<<"aa"<<std::endl;
+            dup=a;
+            a=nums[a];
+            slow=nums[slow];
+        }while(a!=slow);
+        return nums[dup];
+        
+    }
+};
