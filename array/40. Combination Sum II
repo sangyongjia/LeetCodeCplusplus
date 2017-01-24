@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        std::sort(candidates.begin(),candidates.end());
+        vector<vector<int>> res;
+        vector<int> mid_res;
+        int size=candidates.size();
+        helper(candidates,0,size,0,target,res,mid_res);
+        return res;
+    }
+private:
+    void helper(vector<int>& candidates,int start,int end,int sum,int target,vector<vector<int>>& res,vector<int>& mid_res)
+    {
+        //std::cout<<sum<<std::endl;
+        if(sum==target)
+        {
+            res.push_back(mid_res);
+            //mid_res.clear();
+            return;
+        }
+        else if(sum>target)
+        {
+            return;
+        }
+        for(int i=start;i<end;i++)
+        {
+            if(start!=i && candidates[i]==candidates[i-1]) continue;
+            mid_res.push_back(candidates[i]);
+            helper(candidates,i+1,end,sum+candidates[i],target,res,mid_res);
+            mid_res.pop_back();
+        }
+    }
+};
