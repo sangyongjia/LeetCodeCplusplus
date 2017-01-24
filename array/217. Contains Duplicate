@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        vector<int>::size_type size=nums.size();
+        set<int> a;
+        set<int>::iterator iter;
+        for(auto i=0;i<size;i++)
+        {
+            std::cout<<i<<std::endl;
+            iter=a.find(nums[i]);
+            if(iter!=a.end())
+            {
+                return true;
+            }
+            else
+            {
+                a.insert(nums[i]);
+            }
+        }
+        return false;
+    }
+};
