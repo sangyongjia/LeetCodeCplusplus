@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        std::sort(nums1.begin(),nums1.end());
+        std::sort(nums2.begin(),nums2.end());
+        set<int> res_mid;
+        set<int>::iterator iter;
+        int temp=0;
+        for(int i=0;i<nums1.size();i++)
+        {
+            for(int j=temp;j<nums2.size();j++)
+            {
+                //std::cout<<"j="<<j<<std::endl;
+                if(nums2[j]<nums1[i])
+                {
+                    continue;
+                }
+                else if(nums2[j]>nums1[i])
+                {
+                    temp=j;
+                    break;
+                }
+                else
+                {
+                    //res.push_back(nums2[j]);
+                    res_mid.insert(nums2[j]);
+                    //std::cout<<"nums2="<<nums2[j]<<std::endl;
+                    j++;
+                    temp=j;
+                    break;
+                }
+                
+            }
+            //std::cout<<nums1[i]<<std::endl;
+        }
+        for(iter=res_mid.begin();iter!=res_mid.end();iter++)
+        {
+            res.push_back(*iter);
+        }
+        return res;
+    }
+};
