@@ -1,0 +1,29 @@
+bool myfunction(string& a, string& b)
+{
+    string  ab=a+b;
+    string  ba=b+a;
+    if(ab>ba)
+        return true;
+    else
+        return false;
+}
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        string res="";
+        vector<string> temp;
+        int size=nums.size();
+        for(int i=0;i<size;i++)
+        {
+            temp.push_back(to_string(nums[i]));
+        }
+        std::sort(temp.begin(),temp.end(),myfunction);
+        for(int i=0;i<size;i++)
+        {
+            res+=temp[i];
+        }
+        auto pos=res.find_first_not_of("0");
+        string res1= (pos==string::npos?"0":res.substr(pos));
+        return res1;
+    }
+};
