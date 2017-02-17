@@ -1,1 +1,80 @@
+///这个递归的思路不知道//////标记的位置出了问题（runtime error;猜测是数组访问越界的问题，但是我反复确认没有越界的可能呀！），但是想不明白出了什么问题！
+///同时这种解法就算是可以通过，时间复杂度上也不符合要求！
 
+class Solution {
+public:
+    bool goPacific(vector<vector<int>>& matrix,int i,int j,int m,int n)
+    {
+        if(i==0 ||j==0)
+        {
+            return true;
+        }
+        if(matrix[i][j]>=matrix[i-1][j])
+        {
+            if(goPacific(matrix,i-1,j,m,n))
+                return true;
+        }
+        if(matrix[i][j]>=matrix[i][j-1])
+        {
+            if(goPacific(matrix,i,j-1,m,n))
+                return true;
+        }
+        ////////////////
+        if(i+1<=m)
+        {
+            if(matrix[i][j]>=matrix[i+1][j])
+            {
+                if(goPacific(matrix,i+1,j,m,n))
+                    return true;
+            }
+        }
+        if(j+1<=n)
+        {   
+            if(matrix[i][j]>=matrix[i][j+1])
+            {
+                if(goPacific(matrix,i,j+1,m,n))
+                    return true;
+            }
+        }
+        ///////////////////////////
+        return false;
+    }
+    bool goAtlantic(vector<vector<int>>& matrix,int i,int j,int m,int n)
+    {
+        if(i==m || j==n)
+        {
+            return true;
+        }
+        if(matrix[i+1][j]<=matrix[i][j])
+        {
+            if(goAtlantic(matrix,i+1,j,m,n))
+                return true;
+        }
+        if(matrix[i][j+1]<=matrix[i][j])
+        {
+            if(goAtlantic(matrix,i,j+1,m,n))
+                return true;
+        }
+        return false;
+    }
+    vector<pair<int, int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        vector<pair<int, int>> res;
+        std::pair<int, int> temp;
+        if(matrix.empty())
+        {
+            return res;
+        }
+        int h=matrix.size();
+        int w=matrix[0].size();
+        for(int i=0;i<h;i++)
+            for(int j=0;j<w;j++)
+            {
+                if(goPacific(matrix,i,j,h-1,w-1) && goAtlantic(matrix,i,j,h-1,w-1))
+                {
+                    temp=std::make_pair(i,j);
+                    res.push_back(temp);
+                }
+            }
+        return res;
+    }
+};
