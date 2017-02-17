@@ -78,3 +78,52 @@ public:
         return res;
     }
 };
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//和上一个算法相比，这个算法的是个反向思维的方式，同时由于引入两个bool矩阵，从而减少了不必要的重复计算！！
+//
+class Solution {
+public:
+    void search(vector<vector<int>>& matrix,int i,int j,int m,int n,vector<vector<bool>>& visited,int pre)
+    {
+        if(i<0 || i>m || j<0 || j>n || visited[i][j] || matrix[i][j]<pre)
+            return;
+        visited[i][j]=true;
+        search(matrix,i,j+1,m,n,visited,matrix[i][j]);
+        search(matrix,i,j-1,m,n,visited,matrix[i][j]);
+        search(matrix,i+1,j,m,n,visited,matrix[i][j]);
+        search(matrix,i-1,j,m,n,visited,matrix[i][j]);
+    }
+    vector<pair<int, int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        vector<pair<int, int>> res;
+        std::pair<int, int> temp;
+        if(matrix.empty())
+        {
+            return res;
+        }
+        
+        int h=matrix.size();
+        int w=matrix[0].size();
+        vector<vector<bool>> pacific(h,vector<bool>(w,false));
+        vector<vector<bool>> atlantic(h,vector<bool>(w,false));
+        for(int i=0;i<h;i++)
+        {
+            search(matrix,i,0,h-1,w-1,pacific,INT_MIN);
+            search(matrix,i,w-1,h-1,w-1,atlantic,INT_MIN);
+        }
+        for(int j=0;j<w;j++)
+        {
+            search(matrix,0,j,h-1,w-1,pacific,INT_MIN);
+            search(matrix,h-1,j,h-1,w-1,atlantic,INT_MIN);
+        }
+        for(int i=0;i<h;i++)
+            for(int j=0;j<w;j++)
+            {
+                if(pacific[i][j] && atlantic[i][j])
+                {
+                    temp=make_pair(i,j);
+                    res.push_back(temp);
+                }
+            }
+        return res;
+    }
+};
