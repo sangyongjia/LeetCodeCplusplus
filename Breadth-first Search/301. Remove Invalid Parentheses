@@ -81,3 +81,86 @@ public:
         
     }
 };
+///////////////////换成map会稍微快一点
+class Solution {
+public:
+    bool isValid(string & sub)
+    {
+        int size=sub.size();
+        int counter=0;
+        for(int i=0;i<size;i++)
+        {
+            if(sub[i]=='(')
+                counter++;
+            else if(sub[i]==')')
+            {
+                counter--;
+                if(counter<0)
+                {
+                    return false;
+                }
+            }
+            else
+                continue;
+        }
+        if(counter==0)
+            return true;
+        else
+            return false;
+    }
+    vector<string> removeInvalidParentheses(string s) {
+        vector<string> final;
+        set<string> res;
+        //set<string> visited;
+        map<string,int> visited;
+        if(s.empty())
+        {
+            final.push_back("");
+            return final;
+        }
+        queue<string> temp;
+        temp.push(s);
+        string prefix,suffix,sub,ss;
+        bool flag=false;
+        while(!temp.empty())
+        {
+            ss=temp.front();
+            temp.pop();
+            if(isValid(ss))
+            {
+                res.insert(ss);
+                flag=true;
+            }
+            if(flag)
+                continue;
+            int size=ss.size();
+            for(int i=0;i<size;i++)
+            {
+                if(ss[i]!='(' && ss[i]!=')')
+                {
+                    continue;
+                }
+                prefix=ss.substr(0,i);
+                suffix=ss.substr(i+1,size-i-1);
+                sub=prefix+suffix;
+                /*
+                if(visited.find(sub)==visited.end())
+                {
+                    visited.insert(sub);
+                    temp.push(sub);
+                }*/
+                 if(visited.find(sub)==visited.end())
+                {
+                    visited[sub]=1;
+                    temp.push(sub);
+                }
+            }
+        }
+        for(set<string>::iterator it=res.begin();it!=res.end();it++)
+        {
+            final.push_back(*it);
+        }
+        return final;
+        
+    }
+};
