@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string>
+//#include<>
+using namespace std;
+
+template <typename T>
+struct is_void
+{
+    static const bool value = false;
+};
+
+template <>
+struct is_void<void>
+{
+    static const bool value = true;
+};
+template <typename T>
+class A{
+public:
+    A(){};
+private:
+    T a;
+};
+/*
+template <typename T>
+struct TraitsHelper{
+    static const bool isPointer=false;
+};
+template <typename T>
+struct TraitsHelper<T*>{
+    static const bool isPointer=true;
+};
+*/
+
+template <typename T>
+struct TraitsHelper{
+    typedef T ret_type;
+    typedef T par_type;
+};
+template <>
+struct TraitsHelper<int>{
+    typedef int ret_type;
+    typedef int par_type;
+};
+template <>
+struct TraitsHelper<float>{
+    typedef float ret_type;
+    typedef float par_type;
+};
+
+template <typename T>
+class  Test{
+public:
+    Test()
+    {m_data_=9;}
+    typename TraitsHelper<T>::ret_type Compute(typename TraitsHelper<T>::par_type d)
+    {
+        cout<<"hello"<<endl;
+        return d;
+    }
+
+private:
+    T m_data_;
+};
+int main()
+{
+    //cout<<"TraitsHelper<A>::isPointer:"<< TraitsHelper<A<int> >::isPointer<<endl;
+    //cout<<"TraitsHelper<A*>::isPointer:"<< TraitsHelper<A<int>* >::isPointer<<endl;
+    Test<int> t;
+    float a=1.5;
+    //int res=t.Compute(a);
+    cout<<t.Compute(a)<<endl;
+    Test<float> tt;
+    float aa=2.5;
+    cout<<tt.Compute(aa)<<endl;
+    return 0;
+}
