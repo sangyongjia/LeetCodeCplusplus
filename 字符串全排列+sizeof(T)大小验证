@@ -1,0 +1,46 @@
+void output(string res,string left)
+{   
+    if(left.empty())
+    {   
+        cout<<res<<endl;
+        return;
+    }
+    size_t size=left.size();
+    for(size_t i=0;i<size;i++)
+    {   
+        string res1=res,left1=left;
+        res1+=left1[i];
+        if(i==size-1)
+        {   
+            left1=left1.substr(0,i);
+        }
+        else
+        {   
+            left1=left1.substr(0,i)+left1.substr(i+1);
+        }
+        output(res1,left1);
+    }
+ 
+}
+int main()
+{
+    //1////////////////////
+    std::cout<<"int:"<<sizeof(int)<<std::endl;
+    std::cout<<"int*:"<<sizeof(int*)<<std::endl;
+    std::cout<<"long:"<<sizeof(long)<<std::endl;
+    std::cout<<"long*:"<<sizeof(long*)<<std::endl;
+    std::cout<<"char:"<<sizeof(char)<<std::endl;
+    std::cout<<"char*:"<<sizeof(char*)<<std::endl;
+    std::cout<<"short int:"<<sizeof(short int)<<std::endl;
+    //2///////////////////
+    const int a=1;
+    //a=2;
+    const int& b=a;
+    //b=3;
+    std::cout<<b;
+    //3////////////////////////////
+    string aa="abcd",bb;
+    output(bb,aa);
+
+    return 0;
+}
